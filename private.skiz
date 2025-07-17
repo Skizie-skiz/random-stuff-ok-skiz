@@ -1,0 +1,24 @@
+local allowedKeys = {
+    [""] = true
+}
+
+local function hex2str(hex)
+    return (hex:gsub("%x%x", function(h)
+        return string.char(tonumber(h, 16))
+    end))
+end
+
+local userKey = getgenv().plskeytanktoavoidleakingofc
+local decodedKey = hex2str(userKey)
+
+if allowedKeys[decodedKey] then
+   local request = http and http.request or fluxus and fluxus.request or request
+local response = request({
+    Url = "https://raw.githubusercontent.com/Skizie-skiz/skizuniversal/refs/heads/main/skid.lua",
+    Method = "GET"
+})
+loadstring(response.Body)()
+else
+    warn("invalid key")
+    game.Players.LocalPlayer:Kick("Invalid key. Get a valid one from the Discord or website.")
+end
